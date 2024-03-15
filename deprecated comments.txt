@@ -1,0 +1,238 @@
+--[[--
+	gfxTables
+	@module gfxTables
+	@release 0.0.0
+	@author Alejandro Alzate Sánchez
+	@copyright Copyright (c) 2024 alejandro-alzate
+	@summary gfxTables.lua
+	@summary gfxTables.lua is a tool that will help you to print pretty Tables to the terminal!
+	@summary Have you ever been jealous of how pretty SQL consoles prints?
+	@summary Here gfxTables to help you! it has a simple interface where you can create beautiful
+	@summary console crafts with it.
+]]
+
+
+gfxTables._VERSION		= "0.0.0"
+gfxTables._summary		= "Have you ever been jealous of how pretty SQL consoles prints?\nHere gfxTables to help!"
+gfxTables._URL			= "github.com/alejandro-alzate/gfxTables-lua"
+gfxTables._LICENSE		= [[
+	MIT License
+
+	Copyright (c) 2024 alejandro-alzate
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+	]]
+
+
+--[[
+	@license The MIT License (MIT)
+	
+	MIT License
+	
+	Copyright (c) 2024 alejandro-alzate
+	
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+	
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+	
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+	versionhistory
+		0.0.0	gfxTables Has been born
+	website https://github.com/alejandro-alzate/gfxTables
+]]
+
+
+--[[--
+	Meta-method used for making print easier just do a print(newTableObject)
+	And you're off the races
+	@function __tostring
+]]
+
+--[[--
+	@function newTable
+	@summary Create a new object
+	@param style string How pretty it looks, Tells what type of characters should use for decoration
+	@param showEnumerator boolean Tells if a index row in the left should be placed starting from 1 to n entries
+	@param separateEntries boolean Sets if the entries has to be shown compact or separated
+	@param default * What to fill when an entry is nil
+	@usage local newTableObject = gfxTables.newTable("advanced", true)
+	@return gfxTable table a new gfxTable Object used to poke at it
+!]]
+
+--[[--
+	@function setShowEnumerator
+	@summary Sets whether an index should be shown on output
+	@param enable boolean Show or Hide
+!]]
+
+--[[--
+	@function getShowEnumerator
+	@summary Returns if the enumerator is being shown
+	@return showing boolean Is the enumerator showing?
+!]]
+
+--[[--
+	@function setSeparateEntries
+	@summary
+		Sets whether the entries should be separated by a line,
+		Disable this to increase information density,
+		Enable to enhance readability
+	@param enable boolean Expanded or Compact
+!]]
+
+--[[--
+	@function getSeparateEntries
+	@summary Gets if the table will be shown compact or separated
+	@return expanded boolean Expanded or compact
+!]]
+
+--[[--
+	@function setDefaultEntryValue
+	@summary
+		Sets the value to use when an column entry is undefined
+	@param enable boolean Expanded or Compact
+!]]
+
+
+--[[--
+	@function getDefaultEntryValue
+	@summary Gets if the table will be shown compact or separated
+	@return expanded boolean Expanded or compact
+!]]
+
+
+--[[--
+	@function setRightPadding
+	@summary Sets the amount of blank spaces on the right side
+	@param amount number Space count, 1 means a space in the right then the string
+!]]
+
+--[[--
+	@function setLeftPadding
+	@summary Sets the amount of blank spaces on the left side
+	@param amount number Space count, 1 means a space in the right then the string
+!]]
+
+--[[--
+	@function setPadding
+	@summary Sets the amount of blank spaces equally between right and left walls of the table
+	@param amount number Space count, 1 means a space in the right and the left.
+!]]
+
+--[[--
+	@function insertColumn
+	@summary Inserts a new column entry
+	@param name string *The name of said column
+	@param index number Where do you want this column, when left blank it will default to last column + 1
+	@param align string Use "left" or "right" for aligning this column, the entries will inherit this property
+	@param default string
+		For existing entries Overrides what to use to fill in the blanks, default of default is "",
+	@usage newTableObject:insertColumn("Name"):insertColumn("Last Name")
+!]]
+
+--[[--
+	@function insertColumns
+	@summary Inserts a new set of columns
+	@param ... table a table containing the column names
+	@usage newTableObject:insertColumns("Name", "Last Name", "Email", "Phone number")
+!]]
+
+--[[--
+	@function insertEntry
+	@summary Inserts an entry into the table
+	@param entry table *A table containing the values to deposit
+	@param index number Where to put such entry on the table
+	@usage newTableObject:insertEntry({"John", "Doe", "john@example.com", "+1 123-45-67"})
+!]]
+
+--[[--
+	@function removeColumnByIndex
+	@summary Removes a column in the given index
+	@param index number Where is the column to nuke, when unspecified this will remove the last column.
+	@usage newTableObject:removeColumnByIndex(1) -- This will destroy anything in this column.
+!]]
+
+--[[--
+	@function removeColumnByName
+	@summary Removes a column by the given name.
+	@param name string *How the column is called, this is case sensitive.
+	@param firstHitCount number
+		Defaults to 1, when there's column called the same this will
+		ignore n occurrences of name, meaning n being 2 it will remove
+		the second hit of name.
+	@param enableRegex boolean
+		Sets whether the parameter name should be treated as a :match()
+		Expression.
+	@usage
+		--Removes the first column called First Name
+		newTableObject:removeColumnByName("First Name")
+		--Removes the second occurrence of email
+		newTableObject:removeColumnByName("email", 2)
+!]]
+
+
+--[[--
+	@function calculateLongestLines
+	@summary
+		Caches the longest string lengths in all the object, used internally.
+		Use as a last effort to sync the object with its contents
+!]]
+
+--[[--
+	@function getText()
+	@return text string The cooked cool table, perhaps the most complex part of the library
+	@param i number Start from entry #i
+	@param j number End to entry #j
+	@param showHeader boolean Whether to show or not the column name header
+	@summary Get the cooked text ready to print
+	@usage print(newTableObject:getText())
+	@usage Just like SQL print
+	@usage simple looks like this:
+	@usage +------+-----------+
+	@usage | Name | Last name |
+	@usage +------+-----------+
+	@usage | John | Doe       |
+	@usage +------+-----------+
+	@usage advanced looks like this:
+	@usage ┏━━━━━━┳━━━━━━━━━━━┓
+	@usage ┃ Name ┃ Last Name ┃
+	@usage ┡━━━━━━╇━━━━━━━━━━━┩
+	@usage │ John │ Doe       │
+	@usage └──────┴───────────┘
+	@usage It's cute isn't?
+]]
+--[[--
+	@function destroy()
+	@summary Sewf expwanatowy, an scawy function thawt uwu down't
+	@summary wanna touch unwess uwu wawnt tuwu nuke youw
+	@summary bewoved coow gfxTabwe object.
+	@summary Seriously i had to hide a joke somewhere
+]]

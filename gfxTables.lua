@@ -1,9 +1,19 @@
+------------------
+-- ## gfxTables, Print tables like a master.
+-- Have you ever been jealous of how *pretty* SQL consoles prints?
+-- Here gfxTables to help!
+-- it has a simple interface where you can create beautiful
+-- console crafts with it.
+-- @module gfxTables
+-- @copyright 2024
+-- @license MIT
+-- @author Alejandro Alzate
 --luacheck: globals self
 local gfxTables = {}
 gfxTables.__index = gfxTables
 gfxTables._VERSION		= "0.0.0"
 gfxTables._DESCRIPTION	= "Have you ever been jealous of how pretty SQL consoles prints?\nHere gfxTables to help!"
-gfxTables._URL			= "github.com/alejandro-alzate/srt-lua"
+gfxTables._URL			= "github.com/alejandro-alzate/gfxTables-lua"
 gfxTables._LICENSE		= [[
 	MIT License
 
@@ -27,49 +37,6 @@ gfxTables._LICENSE		= [[
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 	SOFTWARE.
 	]]
---[[*
-	@authors Alejandro Alzate Sánchez
-	@copyright Copyright (c) 2024 alejandro-alzate
-	@description
-		<h2>gfxTables.lua</h2><br><h3>Have you ever been jealous of how pretty SQL consoles prints?
-		<br>Here gfxTables to help you! it has a simple interface where you can create beautiful
-		console crafts with it.</h3>
-	@license <p>The MIT License (MIT)</p>
-	<br>
-	MIT License
-	<br>
-	Copyright (c) 2024 alejandro-alzate
-	<br>
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-	<br>
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-	<br>
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-	@moduleid gfxTables
-	@version 0.0.0
-	@versionhistory
-	<ul>
-		<li>
-			<b>0.0.0</b>
-			<br>
-			<p>gfxTables Has been born</p>
-		</li>
-	</ul>
-	@website https://github.com/alejandro-alzate/gfxTables
-*]]
-
 
 function gfxTables:__tostring()
 	return self:getText()
@@ -81,23 +48,8 @@ function gfxTables:__len()
 	return #self.structure.header
 end
 
--- function gfxTables:__newindex(t, key, value)
--- 	print("Poking directly has been disabled please used the methods instead.")
--- end
-
 gfxTables.__name = "gfxTables Object"
 
-
---[[!
-	@function newTable
-	@description Create a new object
-	@parameter style string How pretty it looks, Tells what type of characters should use for decoration
-	@parameter showEnumerator boolean Tells if a index row in the left should be placed starting from 1 to n entries
-	@parameter separateEntries boolean Sets if the entries has to be shown compact or separated
-	@parameter default * What to fill when an entry is nil
-	@example local newTableObject = gfxTables.newTable("advanced", true)
-	@return gfxTable table a new gfxTable Object used to poke at it
-!]]
 function gfxTables.newTable(inputStyle, inputShowEnumerator, inputSeparateEntries, inputDefault)
 	local style = inputStyle or "advanced"
 	local showEnumerator = inputShowEnumerator and true or false
@@ -123,113 +75,53 @@ function gfxTables.newTable(inputStyle, inputShowEnumerator, inputSeparateEntrie
 	return newInstance
 end
 
---[[!
-	@function setShowEnumerator
-	@description Sets whether an index should be shown on output
-	@parameter enable boolean Show or Hide
-!]]
 function gfxTables.setShowEnumerator(enable)
 	if enable then self.showEnumerator = true else self.showEnumerator = false end
 end
---[[!
-	@function getShowEnumerator
-	@description Returns if the enumerator is being shown
-	@returns showing boolean Is the enumerator showing?
-!]]
 function gfxTables.getShowEnumerator() return self.showEnumerator end
 
---[[!
-	@function setSeparateEntries
-	@description
-		Sets whether the entries should be separated by a line,
-		Disable this to increase information density,
-		Enable to enhance readability
-	@parameter enable boolean Expanded or Compact
-!]]
 function gfxTables.setSeparateEntries(enable)
 	if enable then self.separateEntries = true else self.setSeparateEntries = false end
 end
---[[!
-	@function getSeparateEntries
-	@description Gets if the table will be shown compact or separated
-	@returns expanded boolean Expanded or compact
-!]]
 function gfxTables.getSeparateEntries() return self.separateEntries end
 
---[[!
-	@function setDefaultEntryValue
-	@description
-		Sets the value to use when an column entry is undefined
-	@parameter enable boolean Expanded or Compact
-!]]
 function gfxTables.setDefaultEntryValue(inputValue)
 	self.defaultEntryValue = inputValue
 end
---[[!
-	@function getDefaultEntryValue
-	@description Gets if the table will be shown compact or separated
-	@returns expanded boolean Expanded or compact
-!]]
+
 function gfxTables.getSeparateEntries() return self.defaultEntryValue end
 
-
-
---[[!
-	@function setRightPadding
-	@description Sets the amount of blank spaces on the right side
-	@parameter amount number Space count, 1 means a space in the right then the string
-!]]
 function gfxTables:setRightPadding(inputAmount)
 	local amount = inputAmount or 1
 	assert(
 		type(amount) == "number",
-		[[@parameter amount number Space count, 1 means a space in the right and the left
+		[[@param amount number Space count, 1 means a space in the right and the left
 		Received type: ]] .. type(amount)
 		)
 	self.rightPadding = amount
 end
 
---[[!
-	@function setLeftPadding
-	@description Sets the amount of blank spaces on the left side
-	@parameter amount number Space count, 1 means a space in the right then the string
-!]]
 function gfxTables:setLeftPadding(inputAmount)
 	local amount = inputAmount or 1
 	assert(
 		type(amount) == "number",
-		[[@parameter amount number Space count, 1 means a space in the right and the left
+		[[@param amount number Space count, 1 means a space in the right and the left
 		Received type: ]] .. type(amount)
 		)
 	self.leftPadding = amount
 end
 
---[[!
-	@function setPadding
-	@description Sets the amount of blank spaces equally between right and left walls of the table
-	@parameter amount number Space count, 1 means a space in the right and the left.
-!]]
 function gfxTables:setPadding(inputAmount)
 	local amount = inputAmount or 1
 	assert(
 		type(amount) == "number",
-		[[@parameter amount number Space count, 1 means a space in the right and the left
+		[[@param amount number Space count, 1 means a space in the right and the left
 		Received type: ]] .. type(amount)
 		)
 	self:setRightPadding(amount)
 	self:setLeftPadding(amount)
 end
 
---[[!
-	@function insertColumn
-	@description Inserts a new column entry
-	@parameter name string *The name of said column
-	@parameter index number Where do you want this column, when left blank it will default to last column + 1
-	@parameter align string Use "left" or "right" for aligning this column, the entries will inherit this property
-	@parameter default string
-		For existing entries Overrides what to use to fill in the blanks, default of default is "",
-	@example newTableObject:insertColumn("Name"):insertColumn("Last Name")
-!]]
 function gfxTables:insertColumn(inputName, inputIndex, inputAlign, inputDefault)
 	local entries = self.structure.entries
 	local header = self.structure.header
@@ -248,7 +140,7 @@ function gfxTables:insertColumn(inputName, inputIndex, inputAlign, inputDefault)
 		assert(
 			type(name) == "string",
 
-			[[@parameter name string *The name of said column
+			[[@param name string *The name of said column
 			Received type: ]] .. type(name)
 			)
 
@@ -256,7 +148,7 @@ function gfxTables:insertColumn(inputName, inputIndex, inputAlign, inputDefault)
 		assert(
 			type(index) == "number",
 
-			[[@parameter index number Where do you want this column,
+			[[@param index number Where do you want this column,
 			when left blank it will default to last column + 1
 			Received type: ]] .. type(index)
 			)
@@ -264,7 +156,7 @@ function gfxTables:insertColumn(inputName, inputIndex, inputAlign, inputDefault)
 		assert(
 			type(align) == "string" and
 			((align == "left") or (align == "right")),
-			[[@parameter align string Use "left" or "right" for aligning this column,
+			[[@param align string Use "left" or "right" for aligning this column,
 			the entries will inherit this property.
 			Received type: ]] .. type(align) ..
 			"\nReceived value: " .. tostring(align)
@@ -276,7 +168,7 @@ function gfxTables:insertColumn(inputName, inputIndex, inputAlign, inputDefault)
 		assert(
 			type(default) == "string",
 
-			[[@parameter default string For existing entries what to use to fill in the blanks,
+			[[@param default string For existing entries what to use to fill in the blanks,
 			default of default is ""
 			Received type: ]] .. type(default)
 			)
@@ -299,12 +191,6 @@ function gfxTables:insertColumn(inputName, inputIndex, inputAlign, inputDefault)
 	self:calculateLongestLines()
 end
 
---[[!
-	@function insertColumns
-	@description Inserts a new set of columns
-	@parameter ... table a varang containing the column names
-	@example newTableObject:insertColumns("Name", "Last Name", "Email", "Phone number")
-!]]
 function gfxTables:insertColumns(...)
 	local columns = {...}
 
@@ -313,13 +199,6 @@ function gfxTables:insertColumns(...)
 	end
 end
 
---[[!
-	@function insertEntry
-	@description Inserts an entry into the table
-	@parameter entry table *A table containing the values to deposit
-	@parameter index number Where to put such entry on the table
-	@example newTableObject:insertEntry({"John", "Doe", "john@example.com", "+1 123-45-67"})
-!]]
 function gfxTables:insertEntry(inputEntry, inputIndex)
 	local entries = self.structure.entries
 	local newEntry = inputEntry
@@ -327,12 +206,12 @@ function gfxTables:insertEntry(inputEntry, inputIndex)
 
 	assert(
 		type(newEntry) == "table",
-		[[@parameter entry table *A table containing the values to deposit.
+		[[@param entry table *A table containing the values to deposit.
 		Received type: ]] .. type(newEntry)
 		)
 	assert(
 		type(index) == "number",
-		[[@parameter entry table *A table containing the values to deposit.
+		[[@param entry table *A table containing the values to deposit.
 		Received type: ]] .. type(index)
 		)
 
@@ -340,12 +219,6 @@ function gfxTables:insertEntry(inputEntry, inputIndex)
 	self:calculateLongestLines()
 end
 
---[[!
-	@function removeColumnByIndex
-	@description Removes a column in the given index
-	@parameter index number Where is the column to nuke, when unspecified this will remove the last column.
-	@example newTableObject:removeColumnByIndex(1) -- This will destroy anything in this column.
-!]]
 function gfxTables:removeColumnByIndex(inputIndex)
 	local header = self.structure.header
 	local entries = self.structure.entries
@@ -362,23 +235,6 @@ function gfxTables:removeColumnByIndex(inputIndex)
 	self:calculateLongestLines()
 end
 
---[[!
-	@function removeColumnByName
-	@decription Removes a column by the given name.
-	@parameter name string *How the column is called, this is case sensitive.
-	@parameter firstHitCount number
-		Defaults to 1, when there's column called the same this will
-		ignore n ocurrences of name, meaning n being 2 it will remove
-		the second hit of name.
-	@parameter enableRegex boolean
-		Sets whether the parameter name should be treated as a :match()
-		Expresion.
-	@example
-		--Removes the first column called First Name
-		newTableObject:removeColumnByName("First Name")
-		--Removes the second ocurrence of email
-		newTableObject:removeColumnByName("email", 2)
-!]]
 function gfxTables:removeColumnByName(inputName, inputFirstHitCount, inputEnableRegex)
 	local header = self.structure.header
 	local entries = self.structure.entries
@@ -386,35 +242,31 @@ function gfxTables:removeColumnByName(inputName, inputFirstHitCount, inputEnable
 	local firstHitCount = inputFirstHitCount or 1
 	local enableRegex = inputEnableRegex and true or false
 	local indexCachedHit
-
 	do --[[Reality Check]]
 		--name
 		assert(
 			type(name) == "string",
-			[[@parameter name string *How the column is called this is case sensitive
+			[[@param name string *How the column is called this is case sensitive
 			Received type: ]]..type(name)
 			)
-
 		--firstHitCount
 		assert(
 			type(firstHitCount) == "number",
-			[[@parameter firstHitCount number
+			[[@param firstHitCount number
 			Defaults to 1, when there's column called the same this will
 			ignore n occurrences of name, meaning n being 2 it will remove
 			the second hit of name.
 			Received type: ]] .. type(firstHitCount)
 			)
-
 		--enableRegex
 		assert(
 			type(enableRegex) == "boolean",
-			[[@parameter enableRegex boolean
+			[[@param enableRegex boolean
 			Sets whether the parameter name should be treated as a :match()
 			Expression.
 			Received type: ]] .. type(enableRegex)
 			)
 	end
-
 	for i, v in ipairs(header) do
 		if enableRegex then
 			if tostring(v):match(name) then
@@ -436,21 +288,13 @@ function gfxTables:removeColumnByName(inputName, inputFirstHitCount, inputEnable
 			end
 		end
 	end
-
 	if not indexCachedHit then return end
 	for _, v in ipairs(entries) do
 		table.remove(v, indexCachedHit)
 	end
-
 	self:calculateLongestLines()
 end
 
---[[!
-	@function calculateLongestLines
-	@description
-		Caches the longest string lengths in all the object, used internally.
-		Use as a last effort to sync the object with its contents
-!]]
 function gfxTables:calculateLongestLines()
 	local header = self.structure.header
 	local entries = self.structure.entries
@@ -475,35 +319,6 @@ function gfxTables:calculateLongestLines()
 	self.structure.longestLine = biggestLine
 end
 
---[[!
-	@function getText()
-	@description Get the cooked text ready to print
-	@return text string The cooked cool table, perhaps the most complex part of the library
-	@parameter i number Start from entry #i
-	@parameter j number End to entry #j
-	@parameter showHeader boolean Whether to show or not the column name header
-	@example
-		print(newTableObject:getText())
-		Just like SQL print
-		simple looks like this:
-		--> +------+-----------+
-		--> | Name | Last name |
-		--> +------+-----------+
-		--> | John | Doe       |
-		--> +------+-----------+
-
-		This some of the characters used:
-		─━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋╌╍╎╏
-		═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬╭╮╯╰╴╵╶╷╸╹╺╻╼╽╾╿▀▁▂▃▄▅▆▇█▉▊▋▌▍▎▏▐░▒▓▔▕▖▗▘▙▚▛▜▝▞▟
-
-		advanced looks like this:
-		--> ┏━━━━━━┳━━━━━━━━━━━┓
-		--> ┃ Name ┃ Last Name ┃
-		--> ┡━━━━━━╇━━━━━━━━━━━┩
-		--> │ John │ Doe       │
-		--> └──────┴───────────┘
-		It's cute isn't?
-!]]
 function gfxTables:getText(inputStart, inputFinish)
 	local style						= self.style
 	local leftPadding				= self.leftPadding
@@ -548,12 +363,12 @@ function gfxTables:getText(inputStart, inputFinish)
 
 	assert(
 		type(start) == "number",
-		[[@parameter i number Start from entry #i
+		[[@param i number Start from entry #i
 		Received type: ]] .. type(start)
 		)
 	assert(
 		type(finish) == "number",
-		[[@parameter j number End to entry #j
+		[[@param j number End to entry #j
 		Received type: ]] .. type(finish)
 		)
 
@@ -844,14 +659,6 @@ function gfxTables:getText(inputStart, inputFinish)
 	return stringResult
 end
 
---[[!
-	@function destroy()
-	@description
-		Sewf expwanatowy, an scawy function thawt uwu down't
-		wanna touch unwess uwu wawnt tuwu nuke youw
-		bewoved coow gfxTabwe object.
-		Seriously i had to hide a joke somewhere
-!]]
 function gfxTables:destroy()
 	--Find your self
 	for i, v in ipairs(ActiveTables) do
