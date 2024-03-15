@@ -14,7 +14,7 @@
 
 gfxTables._VERSION		= "0.0.0"
 gfxTables._summary		= "Have you ever been jealous of how pretty SQL consoles prints?\nHere gfxTables to help!"
-gfxTables._URL			= "github.com/alejandro-alzate/gfxTables-lua"
+gfxTables._URL			= "https://github.com/alejandro-alzate/gfxTables.lua"
 gfxTables._LICENSE		= [[
 	MIT License
 

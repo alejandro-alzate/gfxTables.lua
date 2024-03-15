@@ -74,18 +74,21 @@ function gfxTables.newTable(inputStyle, inputShowEnumerator, inputSeparateEntrie
 	table.insert(ActiveTables, newInstance)
 	return newInstance
 end
+function gfxTables.new(inputStyle, inputShowEnumerator, inputSeparateEntries, inputDefault)
+	return gfxTables.newTable(inputStyle, inputShowEnumerator, inputSeparateEntries, inputDefault)
+end
 
-function gfxTables.setShowEnumerator(enable)
+function gfxTables:setShowEnumerator(enable)
 	if enable then self.showEnumerator = true else self.showEnumerator = false end
 end
-function gfxTables.getShowEnumerator() return self.showEnumerator end
+function gfxTables:getShowEnumerator() return self.showEnumerator end
 
-function gfxTables.setSeparateEntries(enable)
+function gfxTables:setSeparateEntries(enable)
 	if enable then self.separateEntries = true else self.setSeparateEntries = false end
 end
-function gfxTables.getSeparateEntries() return self.separateEntries end
+function gfxTables:getSeparateEntries() return self.separateEntries end
 
-function gfxTables.setDefaultEntryValue(inputValue)
+function gfxTables:setDefaultEntryValue(inputValue)
 	self.defaultEntryValue = inputValue
 end
 

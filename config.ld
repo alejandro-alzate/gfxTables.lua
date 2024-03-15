@@ -1,7 +1,7 @@
 not_luadoc = true --use mf -X arg on console
 --boilerplate = true --use mf -B arg on console
 project = "gfxTables"
-format = "commonmark"--'markdown|lunamark|discount|commonmark|plain|backticks'
+format = "discount"--'markdown|lunamark|discount|commonmark|plain|backticks'
 title = "gfxTables"
 description = "Print Tables like SQL does!"
 backtick_references = false
