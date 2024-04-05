@@ -335,7 +335,7 @@ function gfxTables:getText(inputStart, inputFinish)
 	local defaultEntryValue			= self.structure.defaultEntryValue
 	local enumerationLength			= tostring(#entries):len() + leftPadding + rightPadding
 	local start						= inputStart or 1
-	local finish					= inputFinish or #header
+	local finish					= inputFinish or #entries
 	local stringResult = ""
 	local wallsLookUp = {
 			header = {
@@ -375,7 +375,7 @@ function gfxTables:getText(inputStart, inputFinish)
 		Received type: ]] .. type(finish)
 		)
 
-	if #header == 0 then return end
+	if #header == 0 then return stringResult end
 
 	if style == "advanced" then
 		wallsLookUp = {
