@@ -3,6 +3,7 @@ Have you ever been jealous of how pretty SQL consoles prints?
 Here gfxTables to help you!
 
 ## To do:
+- lua table to gfxTable and vice versa
 
 ## Features
 - Simple API
